@@ -29,7 +29,7 @@ while res <= 65:
     pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 # Подключение фото
     img = cv2.imread('base_screen.png')
-    img = cv2.resize(img, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
+    # img = cv2.resize(img, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Получаем текст
@@ -49,9 +49,10 @@ while res <= 65:
     elif re.search(r'\bTIMELESS\b', sch):
         print("Emblems")
         print(sch)
-        nums = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
-        nums = float(nums)
-        print(f'Emblem  {nums}')
-        if nums > 0.07 and nums < 0.11:
-            print('Emblems drop!')
-            res = 67
+        res = 67
+        # nums = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
+        # nums = float(nums)
+        # print(f'Emblem  {nums}')
+        # if nums > 0.07 and nums < 0.11:
+        #     print('Emblems drop!')
+        #     res = 67
