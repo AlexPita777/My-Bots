@@ -5,7 +5,9 @@ import pytesseract
 import re
 import pyautogui
 import random
+
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+pyautogui.size()
 
 ems = 0
 res = 0
@@ -33,14 +35,13 @@ while res <= 65 and ems < 0.08:
                 ems = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
                 ems = float(ems)
 
-    elif res < 66 and ems < 0.08:
+    elif res > 66 and ems < 0.08:
         x1 = random.randint(105, 115)
         y1 = random.randint(240, 260)
         t1 = random.uniform(0.05, 0.1)
         x2 = random.randint(320, 336)
         y2 = random.randint(449, 481)
         t2 = random.uniform(0.05, 0.1)
-        pyautogui.size()
         pyautogui.moveTo(x1, y1, t1)
         pyautogui.click(button='right')
         pyautogui.moveTo(x2, y2, t2)
