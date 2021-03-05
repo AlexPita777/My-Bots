@@ -7,54 +7,41 @@ import pyautogui
 import random
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
-i = 0
+ems = 0
 res = 0
 time.sleep(2)
-while res <= 65:
-    i += 1
-    print((i))
-    res = 0
-
-    x1 = random.randint(105, 115)
-    y1 = random.randint(240, 260)
-    t1 = random.uniform(0.05, 0.1)
-    x2 = random.randint(320, 336)
-    y2 = random.randint(449, 481)
-    t2 = random.uniform(0.05, 0.1)
-    pyautogui.size()
-    pyautogui.moveTo(x1, y1, t1)
-    pyautogui.click(button='right')
-    pyautogui.moveTo(x2, y2, t2)
-    pyautogui.click(button='left')
-
-# Захват изображения
+while res <= 65 and ems < 0.08:
+    # Захват изображения
     base_screen = ImageGrab.grab(bbox=(0, 150, 1000, 270))
     base_screen.save('C:/Users/Forza/PycharmProjects/pythonProject6/BotPY/base_screen.png')
-# Подключение фото
+    # Подключение фото
     img = cv2.imread('base_screen.png')
     img = cv2.resize(img, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-# Получаем текст
+    # Получаем текст
     config = r'--oem 3 --psm 6'
     sch = (pytesseract.image_to_string(img, config=config))
-    time.sleep(0.2)
 
-    if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch):
-        nums = re.search(r"(?<=HAVE ).*?(?=% INCREASED)", sch).group(0)
-        nums = int(nums)
-        print(f'Army  {nums}')
-        if nums > 65:
-            print("It's OK.")
-            res = nums
+    if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch) or re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
+        if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch):
+            nums = re.search(r"(?<=HAVE ).*?(?=% INCREASED)", sch).group(0)
+            nums = int(nums)
+            if nums >= 66:
+                res = nums
+        else:
+            if re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
+                ems = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
+                ems = float(ems)
 
-    elif re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
-        print("Emblems")
-        print(sch)
-        # res = 67
-        nums = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
-        nums = float(nums)
-        print(f'Emblem  {nums}')
-        if nums > 0.07:
-            print('Emblems drop!')
-            res = 67
+    elif res < 66 and ems < 0.08:
+        x1 = random.randint(105, 115)
+        y1 = random.randint(240, 260)
+        t1 = random.uniform(0.05, 0.1)
+        x2 = random.randint(320, 336)
+        y2 = random.randint(449, 481)
+        t2 = random.uniform(0.05, 0.1)
+        pyautogui.size()
+        pyautogui.moveTo(x1, y1, t1)
+        pyautogui.click(button='right')
+        pyautogui.moveTo(x2, y2, t2)
+        pyautogui.click(button='left')
