@@ -51,10 +51,10 @@ while res <= 65:
     elif re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
         print("Emblems")
         print(sch)
-        res = 67
-        # nums = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
-        # nums = float(nums)
-        # print(f'Emblem  {nums}')
-        # if nums > 0.07 and nums < 0.11:
-        #     print('Emblems drop!')
-        #     res = 67
+        # res = 67
+        nums = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
+        nums = float(nums)
+        print(f'Emblem  {nums}')
+        if nums > 0.07:
+            print('Emblems drop!')
+            res = 67
