@@ -4,15 +4,16 @@ import cv2
 import pytesseract
 import re
 import pyautogui
-import random
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 pyautogui.size()
 
-ems = 0
+i = 0
 res = 0
 time.sleep(2)
-while res <= 65 and ems < 0.08:
+while res <= 65:
+    i += 1
+    print(f'Начало {i} цикла')
     # Захват изображения
     base_screen = ImageGrab.grab(bbox=(0, 150, 1000, 270))
     base_screen.save('C:/Users/Forza/PycharmProjects/pythonProject6/BotPY/base_screen.png')
@@ -20,29 +21,20 @@ while res <= 65 and ems < 0.08:
     img = cv2.imread('base_screen.png')
     img = cv2.resize(img, None, fx=1.2, fy=1.2, interpolation=cv2.INTER_CUBIC)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    time.sleep(0.2)
     # Получаем текст
     config = r'--oem 3 --psm 6'
     sch = (pytesseract.image_to_string(img, config=config))
-
-    if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch) or re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
-        if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch):
-            nums = re.search(r"(?<=HAVE ).*?(?=% INCREASED)", sch).group(0)
-            nums = int(nums)
-            if nums >= 66:
-                res = nums
-        else:
-            if re.search(r'\bTIMELESS\b', sch) or re.search(r'\bEMBLEMS\b', sch):
-                ems = re.search(r"(?<=AREAS HAVE ).*?(?=% CHANCE)", sch).group(0)
-                ems = float(ems)
-
-    elif res > 66 and ems < 0.08:
-        x1 = random.randint(105, 115)
-        y1 = random.randint(240, 260)
-        t1 = random.uniform(0.05, 0.1)
-        x2 = random.randint(320, 336)
-        y2 = random.randint(449, 481)
-        t2 = random.uniform(0.05, 0.1)
-        pyautogui.moveTo(x1, y1, t1)
+    if re.search(r'\bMARAKETH\b', sch) or re.search(r'\bTEMPLAR\b', sch):
+        nums = re.search(r"(?<=HAVE ).*?(?=% INCREASED)", sch).group(0)
+        nums = int(nums)
+        res = nums
+        print(nums)
+        input()
+    elif res < 66:
+        pyautogui.moveTo(110, 250, 0.05)
         pyautogui.click(button='right')
-        pyautogui.moveTo(x2, y2, t2)
+        pyautogui.moveTo(328, 465, 0.06)
         pyautogui.click(button='left')
+        time.sleep(0.2)
+        print(f'Конец {i} цикла')
